@@ -27,8 +27,8 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Producto> actualizarStock(@PathVariable Long id, @RequestParam Integer stock) {
-        return productoService.actualizarStock(id, stock)
+    public ResponseEntity<Producto> descontarStock(@PathVariable Long id, @RequestParam Integer cantidad) {
+        return productoService.descontarStock(id, cantidad)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

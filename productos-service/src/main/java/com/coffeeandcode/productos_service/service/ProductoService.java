@@ -21,8 +21,12 @@ public class ProductoService {
         return productoRepository.findById(id);
     }
 
-    public Optional<Producto> actualizarStock(Long id, Integer nuevoStock) {
+    public Optional<Producto> descontarStock(Long id, Integer cantidad) {
         return productoRepository.findById(id).map(producto -> {
+            int nuevoStock = producto.getStock() - cantidad;
+            if (nuevoStock < 0) {
+                throw new RuntimeException("Stock insuficiente");
+            }
             producto.setStock(nuevoStock);
             return productoRepository.save(producto);
         });

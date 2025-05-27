@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 
@@ -17,6 +18,7 @@ public class PedidosServiceApplication {
         SpringApplication.run(PedidosServiceApplication.class, args);
     }
 
+    /*
     @Bean
     CommandLineRunner initDB(PedidoRepository repo) {
         return args -> {
@@ -45,6 +47,10 @@ public class PedidosServiceApplication {
 
             repo.save(pedido1);
         };
+    }*/
+
+    @Bean
+    public WebClient webClient() {
+        return WebClient.builder().build();
     }
 }
-
