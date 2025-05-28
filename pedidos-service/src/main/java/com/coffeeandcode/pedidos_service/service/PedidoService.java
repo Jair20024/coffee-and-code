@@ -82,8 +82,7 @@ public class PedidoService {
                 } catch (Exception e) {
                     throw new RuntimeException("Error al actualizar el stock del producto: " + producto.getNombre() + " - " + e.getMessage());
                 }
-                // Asignar el precioUnitario desde el microservicio de productos
-                det.setPrecioUnitario(producto.getPrecio());
+                det.setNombreProducto(producto.getNombre());
                 det.setPedido(pedido);
             }
         }

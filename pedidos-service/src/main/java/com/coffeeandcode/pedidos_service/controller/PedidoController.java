@@ -2,6 +2,8 @@ package com.coffeeandcode.pedidos_service.controller;
 
 import com.coffeeandcode.pedidos_service.entity.Pedido;
 import com.coffeeandcode.pedidos_service.service.PedidoService;
+import com.coffeeandcode.pedidos_service.dto.PedidoDTO;
+import com.coffeeandcode.pedidos_service.dto.PedidoDTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +18,16 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping
-    public List<Pedido> listarPedidos() {
-        return pedidoService.listarPedidos();
+    public List<PedidoDTO> listarPedidos() {
+        return pedidoService.listarPedidos().stream()
+                .map(PedidoDTOFactory::factoryMethod)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> obtenerPedido(@PathVariable Long id) {
+    public ResponseEntity<PedidoDTO> obtenerPedido(@PathVariable Long id) {
         return pedidoService.obtenerPedido(id)
+                .map(PedidoDTOFactory::factoryMethod)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

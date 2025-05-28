@@ -17,7 +17,7 @@ public class DetallePedido {
 
     private Long productoId;
     private Integer cantidad;
-    private Double precioUnitario;
+    private String nombreProducto;
 
     @ManyToOne
     @JoinColumn(name = "pedido_id")
