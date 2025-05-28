@@ -100,5 +100,14 @@ public class PedidoService {
             return pedido;
         });
     }
-}
 
+    public Optional<Pedido> marcarComoPagado(Long id) {
+        return pedidoRepository.findById(id).map(pedido -> {
+            pedido.setPagado(true);
+            if ("PENDIENTE".equals(pedido.getEstado())) {
+                pedido.setEstado("LISTO");
+            }
+            return pedidoRepository.save(pedido);
+        });
+    }
+}

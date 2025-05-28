@@ -38,4 +38,11 @@ public class PedidoController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.badRequest().build());
     }
+
+    @PutMapping("/{id}/pagar")
+    public ResponseEntity<Pedido> marcarComoPagado(@PathVariable Long id) {
+        return pedidoService.marcarComoPagado(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
+    }
 }

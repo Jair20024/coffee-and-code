@@ -1,28 +1,26 @@
 package com.coffeeandcode.pagos_service.service;
 
-import com.coffeeandcode.pagos_service.entity.Pago;
-import com.coffeeandcode.pagos_service.repository.PagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class PagoService {
+    private final String PEDIDOS_URL = "http://localhost:8082/pedidos/";
+
     @Autowired
-    private PagoRepository pagoRepository;
+    private WebClient webClient;
 
-    public Pago registrarPago(Long pedidoId, Double monto) {
-        Pago pago = Pago.builder()
-                .pedidoId(pedidoId)
-                .monto(monto)
-                .estado(Pago.EstadoPago.PAGADO) // Simulación de éxito
-                .build();
-
-        return pagoRepository.save(pago);
-    }
-
-    public Optional<Pago> obtenerPagoPorPedido(Long pedidoId) {
-        return pagoRepository.findByPedidoId(pedidoId);
+    public boolean marcarPedidoComoPagado(Long pedidoId) {
+        try {
+            webClient.put()
+                    .uri(PEDIDOS_URL + pedidoId + "/pagar")
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
