@@ -6,6 +6,7 @@ import com.coffeeandcode.pedidos_service.entity.DetallePedido;
 import com.coffeeandcode.pedidos_service.entity.Pedido;
 import com.coffeeandcode.pedidos_service.repository.PedidoRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class PedidoService {
     }
 
     @CircuitBreaker(name = "clientesServiceCB", fallbackMethod = "fallbackCliente")
+    @Retry(name = "clientesServiceRetry")
     private ClienteDTO consultarCliente(Long clienteId) {
         return webClient.get()
                 .uri(CLIENTES_URL + clienteId)
@@ -49,6 +51,7 @@ public class PedidoService {
     }
 
     @CircuitBreaker(name = "productosServiceCB", fallbackMethod = "fallbackProducto")
+    @Retry(name = "productosServiceRetry")
     private ProductoDTO consultarProducto(Long productoId) {
         return webClient.get()
                 .uri(PRODUCTOS_URL + productoId)
@@ -62,6 +65,7 @@ public class PedidoService {
     }
 
     @CircuitBreaker(name = "productosServiceCB", fallbackMethod = "fallbackActualizarStock")
+    @Retry(name = "productosServiceRetry")
     private void descontarStock(Long productoId, Integer cantidad) {
         webClient.put()
                 .uri(PRODUCTOS_URL + productoId + "?cantidad=" + cantidad)

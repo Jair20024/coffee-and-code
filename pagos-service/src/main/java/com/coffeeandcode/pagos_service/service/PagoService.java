@@ -1,6 +1,7 @@
 package com.coffeeandcode.pagos_service.service;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class PagoService {
     @Autowired
     private WebClient webClient;
 
+    @Retry(name = "pagosServiceRetry")
     @CircuitBreaker(name = "pagosServiceCB", fallbackMethod = "fallbackMarcarPedidoComoPagado")
     public boolean marcarPedidoComoPagado(Long pedidoId) {
         webClient.put()
