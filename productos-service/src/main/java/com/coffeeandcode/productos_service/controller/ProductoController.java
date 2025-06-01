@@ -32,5 +32,11 @@ public class ProductoController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @PostMapping
+    public ResponseEntity<Producto> registrarProducto(@RequestBody Producto producto) {
+        Producto nuevoProducto = productoService.registrarProducto(producto);
+        return ResponseEntity.ok(nuevoProducto);
+    }
+
 }
 

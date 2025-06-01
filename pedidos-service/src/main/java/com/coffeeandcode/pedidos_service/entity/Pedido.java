@@ -19,13 +19,14 @@ public class Pedido {
 
     private Long clienteId;
 
-    private String estado; // PENDIENTE, EN_PREPARACION, LISTO, ENTREGADO, CANCELADO
+    private String estado; // PENDIENTE, EN_PREPARACION, LISTO, ENTREGADO, CANCELADO ,PAGADO
 
     private Boolean pagado = false;
 
     private String descripcion;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference  // <--- Permite serializar la lista de detalles normalmente
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference  // para evitar problemas de recursión JSON
     private List<DetallePedido> detalles;
+
 }

@@ -31,5 +31,10 @@ public class ProductoService {
             return productoRepository.save(producto);
         });
     }
+    
+    public Producto registrarProducto(Producto producto) {
+        return productoRepository.save(producto);
+    }
+
 }
 

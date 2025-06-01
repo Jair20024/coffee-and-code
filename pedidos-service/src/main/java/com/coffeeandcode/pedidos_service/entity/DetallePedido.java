@@ -18,9 +18,12 @@ public class DetallePedido {
     private Long productoId;
     private Integer cantidad;
     private String nombreProducto;
+    private Double precioUnitario; 
 
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     @JsonBackReference  // <--- Evita la recursión hacia Pedido al serializar JSON
     private Pedido pedido;
+    
+   
 }
